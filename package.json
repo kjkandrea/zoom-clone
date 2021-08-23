@@ -1,0 +1,16 @@
+{
+  "name": "zoom-clone",
+  "version": "1.0.0",
+  "description": "😎",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjkandrea/zoom-clone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kjkandrea/zoom-clone/issues"
+  },
+  "homepage": "https://github.com/kjkandrea/zoom-clone#readme"
+}
