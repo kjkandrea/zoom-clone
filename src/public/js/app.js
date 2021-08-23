@@ -11,7 +11,6 @@ const app = {
   },
   bindPetEvent() {
     const petTrigger = document.querySelector('.petButton')
-    console.log(petTrigger)
     petTrigger.addEventListener('click', this.pet)
   }
 }
