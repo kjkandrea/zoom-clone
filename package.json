@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git+https://github.com/kjkandrea/zoom-clone.git"
   },
+  "scripts": {
+    "dev": "nodemon"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
