@@ -1,1 +1,8 @@
-console.log(1+1)
+import express from "express";
+
+const app = express();
+const port = 3000;
+
+app.listen(port)
+
+console.log('app listen : %s', `http://localhost:${port}`)
