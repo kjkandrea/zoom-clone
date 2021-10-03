@@ -1,6 +1,8 @@
 const messageList = document.getElementById('message-list')
 const form = document.getElementById('send-form')
 
+document.addEventListener('DOMContentLoaded', () => form.querySelector('input').focus())
+
 const handleSubmit = evt => {
   evt.preventDefault();
   const input = evt.target.querySelector('input')
@@ -17,5 +19,5 @@ socket.addEventListener('open', () => console.log('🧚 WebSocket Connected to S
 socket.addEventListener('close', () => console.log('🧚 WebSocket Disconnected from Server.'))
 
 socket.addEventListener('message', msg => {
-  console.log('server say : ', msg)
+  console.log('server say : ', msg.data)
 })
