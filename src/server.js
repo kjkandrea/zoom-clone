@@ -15,16 +15,23 @@ const handleListen = () => console.log('app listen : %s', `http://localhost:${po
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
+const sockets = []
 
-wss.on("connection", socket => {
+const parseMessage = msg => msg.toString('utf8')
+
+const handleMessage = msg =>
+  sockets.forEach(s => s.send(parseMessage(msg)))
+
+const handleConnection = socket => {
+  sockets.push(socket)
   console.log('🧚 WebSocket Connected to Client.')
 
   socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from Client.'))
-  socket.on('message', message => {
-    socket.send('echo : ' + message)
-  })
+  socket.on('message', handleMessage)
 
   socket.send('hello 🐶')
-})
+}
+
+wss.on("connection", handleConnection)
 
 server.listen(3000, handleListen)
