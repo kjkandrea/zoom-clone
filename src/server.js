@@ -17,7 +17,9 @@ const wss = new WebSocket.Server({ server })
 
 
 wss.on("connection", socket => {
-  console.log('🧚 Web Socket Connected to Browser.')
+  console.log('🧚 WebSocket Connected to Client.')
+
+  socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from Client.'))
 
   socket.send('hello 🐶')
 })
