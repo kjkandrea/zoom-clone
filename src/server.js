@@ -17,6 +17,8 @@ const wss = new WebSocket.Server({ server })
 
 
 wss.on("connection", socket => {
+  console.log('🧚 Web Socket Connected to Browser.')
+
   socket.send('hello 🐶')
 })
 

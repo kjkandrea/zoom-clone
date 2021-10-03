@@ -14,4 +14,6 @@ const app = {
 document.addEventListener('DOMContentLoaded', app.setup.bind(app))
 
 const socket = new WebSocket(`ws://${window.location.host}`)
-console.log(socket)
+
+socket.addEventListener('open', () => console.log('🧚 Web Socket Connected to Server.'))
+
