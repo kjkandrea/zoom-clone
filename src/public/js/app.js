@@ -1,17 +1,13 @@
-const app = {
-  setup() {
-    this.bindPetEvent()
-  },
-  pet() {
-    alert('🤚')
-  },
-  bindPetEvent() {
-    const petTrigger = document.querySelector('.petButton')
-    petTrigger.addEventListener('click', this.pet)
-  }
+const messageList = document.getElementById('message-list')
+const form = document.getElementById('send-form')
+
+const handleSubmit = evt => {
+  evt.preventDefault();
+  const { value } = evt.target.querySelector('input')
+  alert(value)
 }
 
-document.addEventListener('DOMContentLoaded', app.setup.bind(app))
+form.addEventListener('submit', handleSubmit)
 
 const socket = new WebSocket(`ws://${window.location.host}`)
 

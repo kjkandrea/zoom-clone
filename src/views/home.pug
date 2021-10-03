@@ -8,6 +8,8 @@ html(lang="en")
         header
             h1 Zoom
         main
-            p 🐕
-            button.petButton pet a doggy
+           ul(id="message-list")
+           form(id="send-form")
+               input(type="text", required, placeholder="write a msg")
+               button submit
         script(src="/public/js/app.js")
