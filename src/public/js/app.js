@@ -1,7 +1,3 @@
-console.log(
-  document.body.children[0].textContent
-)
-
 const app = {
   setup() {
     this.bindPetEvent()
@@ -16,3 +12,6 @@ const app = {
 }
 
 document.addEventListener('DOMContentLoaded', app.setup.bind(app))
+
+const socket = new WebSocket(`ws://${window.location.host}`)
+console.log(socket)
