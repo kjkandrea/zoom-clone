@@ -19,6 +19,10 @@ socket.addEventListener('open', () => console.log('🧚 WebSocket Connected to S
 socket.addEventListener('close', () => console.log('🧚 WebSocket Disconnected from Server.'))
 
 socket.addEventListener('message', msg => {
-  console.log(msg)
+  console.log('server say : ', msg)
 })
+
+setTimeout(() => {
+  socket.send('hi. server')
+}, 2000)
 

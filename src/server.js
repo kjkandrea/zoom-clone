@@ -20,6 +20,9 @@ wss.on("connection", socket => {
   console.log('🧚 WebSocket Connected to Client.')
 
   socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from Client.'))
+  socket.on('message', message => {
+    console.log('client say : ', message.toString('utf8'))
+  })
 
   socket.send('hello 🐶')
 })
