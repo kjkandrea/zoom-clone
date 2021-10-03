@@ -3,8 +3,10 @@ const form = document.getElementById('send-form')
 
 const handleSubmit = evt => {
   evt.preventDefault();
-  const { value } = evt.target.querySelector('input')
-  alert(value)
+  const input = evt.target.querySelector('input')
+  socket.send(input.value)
+  input.value = ''
+  input.focus()
 }
 
 form.addEventListener('submit', handleSubmit)
@@ -17,8 +19,3 @@ socket.addEventListener('close', () => console.log('🧚 WebSocket Disconnected 
 socket.addEventListener('message', msg => {
   console.log('server say : ', msg)
 })
-
-setTimeout(() => {
-  socket.send('hi. server')
-}, 2000)
-
