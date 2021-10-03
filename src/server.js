@@ -15,8 +15,9 @@ const handleListen = () => console.log('app listen : %s', `http://localhost:${po
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
-const handleConnection = socket => console.log(socket)
 
-wss.on("connection", handleConnection)
+wss.on("connection", socket => {
+  socket.send('hello 🐶')
+})
 
 server.listen(3000, handleListen)
