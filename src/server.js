@@ -1,6 +1,6 @@
-import http from 'http'
+import http from 'http';
 // import WebSocket from 'ws'
-import SocketIO from 'socket.io'
+import SocketIO from 'socket.io';
 import express from "express";
 
 const app = express()
@@ -15,6 +15,10 @@ const handleListen = () => console.log('app listen : %s', `http://localhost:${po
 
 const server = http.createServer(app)
 const io = SocketIO(server)
+
+io.on('connection', socket => {
+  console.log(socket)
+})
 
 // const wss = new WebSocket.Server({ server })
 
