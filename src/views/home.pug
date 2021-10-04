@@ -8,6 +8,10 @@ html(lang="en")
     body
         header
             h1 Zoom
+            div#welcome
+                form#welcome-form
+                    input(type="text", placeholder="Room name.", required)
+                    button Enter Room
         main
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js", type="module")
