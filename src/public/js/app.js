@@ -1,17 +1,31 @@
 const messageList = document.getElementById('message-list')
-const form = document.getElementById('send-form')
+const messageForm = document.getElementById('send-form')
+const nicknameForm = document.getElementById('nickname-form')
 
-document.addEventListener('DOMContentLoaded', () => form.querySelector('input').focus())
+document.addEventListener('DOMContentLoaded', () => nicknameForm.querySelector('input').focus())
+
+const makeSendJson = (type, payload) => JSON.stringify({ type, payload})
+const curriedMakeSendJson = R.curry(makeSendJson)
+const makeMessage = curriedMakeSendJson('message')
+const makeNickname = curriedMakeSendJson('nickname')
 
 const handleSubmit = evt => {
   evt.preventDefault();
   const input = evt.target.querySelector('input')
-  socket.send(input.value)
+  socket.send(makeMessage(input.value))
   input.value = ''
   input.focus()
 }
 
-form.addEventListener('submit', handleSubmit)
+messageForm.addEventListener('submit', handleSubmit)
+
+const handleNicknameSubmit = evt => {
+  evt.preventDefault();
+  const input = evt.target.querySelector('input')
+  socket.send(makeNickname(input.value))
+}
+
+nicknameForm.addEventListener('submit', handleNicknameSubmit)
 
 const socket = new WebSocket(`ws://${window.location.host}`)
 
