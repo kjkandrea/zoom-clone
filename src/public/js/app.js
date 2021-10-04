@@ -33,7 +33,15 @@ socket.addEventListener('open', () => console.log('🧚 WebSocket Connected to S
 socket.addEventListener('close', () => console.log('🧚 WebSocket Disconnected from Server.'))
 
 socket.addEventListener('message', msg => {
-  const li = document.createElement('li')
-  li.innerText = msg.data
-  messageList.append(li)
+  const { nickname, message } = JSON.parse(msg.data)
+  const messageTemplate = (nickname, message) => `
+      <dl>
+          <dt>${nickname}</dt>
+          <dd>${message}</dd>
+      </dl>
+  `
+  const el = document.createElement('li')
+  el.innerHTML = messageTemplate(nickname, message)
+
+  messageList.append(el)
 })
