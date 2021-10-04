@@ -12,6 +12,11 @@ html(lang="en")
                 form#welcome-form
                     input(type="text", placeholder="Room name.", required)
                     button Enter Room
+            div#room
+                ul
+                form#chat-form
+                    input(type="text", placeholder="Write a message.", required)
+                    button Chat
         main
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js", type="module")
