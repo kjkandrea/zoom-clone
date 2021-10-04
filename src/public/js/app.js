@@ -13,7 +13,7 @@ const handleMessageSubmit = (evt, roomName) => {
   const input = evt.target.querySelector('input')
   const { value } = input
   if (value.trim()) socket.emit('new_message', value, roomName, () => addMessage(`You: ${value}`))
-  input.value = ' '
+  input.value = ''
 }
 
 const attachChat = (roomEl, roomName) => {
