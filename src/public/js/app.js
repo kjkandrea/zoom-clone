@@ -8,7 +8,7 @@ const handleWelcomeSubmit = evt => {
   const inputEl = evt.target.querySelector('input')
   socket.emit(
     'enter_room',
-    { payload: inputEl.value },
+    inputEl.value,
     ()=> console.log('server is done')
   )
   inputEl.value = ''
