@@ -17,10 +17,11 @@ const wss = new WebSocket.Server({ server })
 
 const sockets = []
 
-const parseMessage = msg => msg.toString('utf8')
-
-const handleMessage = msg =>
-  sockets.forEach(s => s.send(parseMessage(msg)))
+const parseMessagePayload = msg => msg.toString('utf8')
+const handleMessage = msg => {
+  msg = JSON.parse(msg)
+  if (msg.type === "message") sockets.forEach(s => s.send(parseMessagePayload(msg.payload)))
+}
 
 const handleConnection = socket => {
   sockets.push(socket)
