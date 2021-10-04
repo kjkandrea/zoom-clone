@@ -1,5 +1,6 @@
-import http from 'http'
-import WebSocket from 'ws'
+import http from 'http';
+// import WebSocket from 'ws'
+import SocketIO from 'socket.io';
 import express from "express";
 
 const app = express()
@@ -13,25 +14,40 @@ app.get("/", (req, res) => res.render("home"))
 const handleListen = () => console.log('app listen : %s', `http://localhost:${port}`)
 
 const server = http.createServer(app)
-const wss = new WebSocket.Server({ server })
+const io = SocketIO(server)
 
-const sockets = []
+io.on('connection', socket => {
+  socket.onAny(evt => console.log(`socket evt : ${evt}`))
+  socket.on('enter_room', (roomName, done) => {
+    socket.join(roomName)
+    done(roomName)
+  })
+})
 
-const parseMessage = msg => msg.toString('utf8')
+// const wss = new WebSocket.Server({ server })
 
-const handleMessage = msg =>
-  sockets.forEach(s => s.send(parseMessage(msg)))
-
-const handleConnection = socket => {
-  sockets.push(socket)
-  console.log('🧚 WebSocket Connected to Client.')
-
-  socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from Client.'))
-  socket.on('message', handleMessage)
-
-  socket.send('hello 🐶')
-}
-
-wss.on("connection", handleConnection)
+// const sockets = []
+//
+// const parseMessagePayload = msg => msg.toString('utf8')
+// const handleMessage = (msg, socket) => {
+//   const { type, payload } = JSON.parse(msg)
+//   if (type === "message") sockets.forEach(s =>
+//     s.send(JSON.stringify({
+//       nickname: socket.nickname,
+//       message: parseMessagePayload(payload)
+//     })))
+//   if (type === "nickname") socket['nickname'] = payload
+// }
+//
+// const handleConnection = socket => {
+//   sockets.push(socket)
+//   console.log('🧚 WebSocket Connected to Client.')
+//   socket['nickname'] = 'anonymous'
+//
+//   socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from Client.'))
+//   socket.on('message', msg => handleMessage(msg, socket))
+// }
+//
+// wss.on("connection", handleConnection)
 
 server.listen(3000, handleListen)

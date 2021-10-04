@@ -4,12 +4,20 @@ html(lang="en")
         meta(charset="UTF-8")
         title Zoom
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        script(src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js")
     body
         header
             h1 Zoom
+            div#welcome
+                form#welcome-form
+                    input(type="text", placeholder="Room name.", required)
+                    button Enter Room
+            div#room
+                h2
+                ul
+                form#chat-form
+                    input(type="text", placeholder="Write a message.", required)
+                    button Chat
         main
-           ul(id="message-list")
-           form(id="send-form")
-               input(type="text", required, placeholder="write a msg")
-               button submit
-        script(src="/public/js/app.js")
+        script(src="/socket.io/socket.io.js")
+        script(src="/public/js/app.js", type="module")
