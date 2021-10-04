@@ -14,6 +14,13 @@ const showRoom = roomName => {
   roomEl.querySelector('h2').innerText = roomName;
 }
 
+const addMessage = message => {
+  const target = roomEl.querySelector('ul')
+  const el = document.createElement('li')
+  el.innerText = message
+  target.append(el)
+}
+
 const handleWelcomeSubmit = evt => {
   evt.preventDefault();
   const inputEl = evt.target.querySelector('input')
@@ -26,3 +33,7 @@ const handleWelcomeSubmit = evt => {
 }
 
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
+
+socket.on("welcome", () => {
+  addMessage('someone joined!')
+})
