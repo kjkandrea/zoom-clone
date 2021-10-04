@@ -6,7 +6,11 @@ const welcomeFormEl = welcomeEl.querySelector('form')
 const handleWelcomeSubmit = evt => {
   evt.preventDefault();
   const inputEl = evt.target.querySelector('input')
-  socket.emit('room', { payload: inputEl.value })
+  socket.emit(
+    'enter_room',
+    { payload: inputEl.value },
+    ()=> console.log('server is done')
+  )
   inputEl.value = ''
 }
 
