@@ -10,8 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const handleMessageSubmit = (evt, roomName) => {
   evt.preventDefault();
-  const { value } = evt.target.querySelector('input')
+  const input = evt.target.querySelector('input')
+  const { value } = input
   if (value.trim()) socket.emit('new_message', value, roomName, () => addMessage(`You: ${value}`))
+  input.value = ' '
 }
 
 const attachChat = (roomEl, roomName) => {
