@@ -37,3 +37,7 @@ welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
 socket.on("welcome", () => {
   addMessage('someone joined!')
 })
+
+socket.on("bye", () => {
+  addMessage('someone left!')
+})

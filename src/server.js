@@ -22,6 +22,7 @@ io.on('connection', socket => {
     socket.join(roomName)
     done(roomName)
     socket.to(roomName).emit('welcome');
+    socket.on("disconnecting", () => socket.rooms.forEach(room => socket.to(room).emit("bye")))
   })
 })
 
