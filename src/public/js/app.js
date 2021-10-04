@@ -19,5 +19,7 @@ socket.addEventListener('open', () => console.log('🧚 WebSocket Connected to S
 socket.addEventListener('close', () => console.log('🧚 WebSocket Disconnected from Server.'))
 
 socket.addEventListener('message', msg => {
-  console.log('server say : ', msg.data)
+  const li = document.createElement('li')
+  li.innerText = msg.data
+  messageList.append(li)
 })
