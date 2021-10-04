@@ -19,8 +19,9 @@ const sockets = []
 
 const parseMessagePayload = msg => msg.toString('utf8')
 const handleMessage = msg => {
-  msg = JSON.parse(msg)
-  if (msg.type === "message") sockets.forEach(s => s.send(parseMessagePayload(msg.payload)))
+  const { type, payload } = JSON.parse(msg)
+  if (type === "message") sockets.forEach(s => s.send(parseMessagePayload(payload)))
+  if (type === "nickname") console.log(payload)
 }
 
 const handleConnection = socket => {
