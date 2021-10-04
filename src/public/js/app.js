@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
   roomEl.hidden = true
 })
 
-const showRoom = () => {
+const showRoom = roomName => {
   welcomeEl.hidden = true
   roomEl.hidden = false
+  roomEl.querySelector('h2').innerText = roomName;
 }
 
 const handleWelcomeSubmit = evt => {

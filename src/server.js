@@ -20,7 +20,7 @@ io.on('connection', socket => {
   socket.onAny(evt => console.log(`socket evt : ${evt}`))
   socket.on('enter_room', (roomName, done) => {
     socket.join(roomName)
-    done()
+    done(roomName)
   })
 })
 
