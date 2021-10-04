@@ -1,17 +1,18 @@
-import http from 'http';
+import http from 'http'
 // import WebSocket from 'ws'
-import SocketIO from 'socket.io';
-import express from "express";
+import SocketIO from 'socket.io'
+import express from 'express'
 
 const app = express()
 const port = 3000
 
-app.set("view engine", "pug")
-app.set("views", __dirname + "/views")
-app.use("/public", express.static(__dirname + "/public"))
-app.get("/", (req, res) => res.render("home"))
+app.set('view engine', 'pug')
+app.set('views', __dirname + '/views')
+app.use('/public', express.static(__dirname + '/public'))
+app.get('/', (req, res) => res.render('home'))
 
-const handleListen = () => console.log('app listen : %s', `http://localhost:${port}`)
+const handleListen = () => console.log('app listen : %s',
+  `http://localhost:${port}`)
 
 const server = http.createServer(app)
 const io = SocketIO(server)
@@ -21,8 +22,13 @@ io.on('connection', socket => {
   socket.on('enter_room', (roomName, done) => {
     socket.join(roomName)
     done(roomName)
-    socket.to(roomName).emit('welcome');
-    socket.on("disconnecting", () => socket.rooms.forEach(room => socket.to(room).emit("bye")))
+    socket.to(roomName).emit('welcome')
+    socket.on('disconnecting',
+      () => socket.rooms.forEach(room => socket.to(room).emit('bye')))
+    socket.on('new_message', (msg, sayRoomName, done) => {
+      socket.to(sayRoomName).emit('new_message', msg)
+      done()
+    })
   })
 })
 
@@ -46,10 +52,8 @@ io.on('connection', socket => {
 //   console.log('🧚 WebSocket Connected to Client.')
 //   socket['nickname'] = 'anonymous'
 //
-//   socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from Client.'))
-//   socket.on('message', msg => handleMessage(msg, socket))
-// }
-//
+//   socket.on('close', ()=> console.log('🧚 WebSocket Disconnected from
+// Client.')) socket.on('message', msg => handleMessage(msg, socket)) }
 // wss.on("connection", handleConnection)
 
 server.listen(3000, handleListen)

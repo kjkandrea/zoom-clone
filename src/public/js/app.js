@@ -8,10 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
   roomEl.hidden = true
 })
 
+const handleMessageSubmit = (evt, roomName) => {
+  evt.preventDefault();
+  const { value } = evt.target.querySelector('input')
+  if (value.trim()) socket.emit('new_message', value, roomName, () => addMessage(`You: ${value}`))
+}
+
+const attachChat = (roomEl, roomName) => {
+  const formEl = roomEl.querySelector('form')
+  formEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
+}
+
 const showRoom = roomName => {
   welcomeEl.hidden = true
   roomEl.hidden = false
   roomEl.querySelector('h2').innerText = roomName;
+  attachChat(roomEl, roomName)
 }
 
 const addMessage = message => {
@@ -41,3 +53,5 @@ socket.on("welcome", () => {
 socket.on("bye", () => {
   addMessage('someone left!')
 })
+
+socket.on("new_message", addMessage)
