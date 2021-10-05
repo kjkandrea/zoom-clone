@@ -2,6 +2,7 @@ doctype html
 html(lang="en")
     head
         meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
         title Zoom
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
         link(rel="stylesheet", href="/assets/css/main.css")
@@ -11,12 +12,12 @@ html(lang="en")
             header
                 h1 Zoom
             main
-                div#welcome
+                div#welcome.box
+                    h2 Join Room
                     form#welcome-form
                         input(type="text", placeholder="Room name.", required)
                         button Enter Room
-                div#room
-                    h2
+                div#room.box
                     ul
                     form#chat-form
                         input(type="text", placeholder="Write a message.", required)
