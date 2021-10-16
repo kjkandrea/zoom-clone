@@ -18,6 +18,22 @@ const handleListen = () => console.log('app listen : %s',
 const server = http.createServer(app)
 const io = SocketIO(server)
 
+const getPublicRooms = io => {
+  if (io?.sockets?.adapter === undefined) {
+    return
+  }
+  const { sids, rooms } = io.sockets.adapter
+
+  const publicRooms = []
+  rooms.forEach((_, key) => {
+    if (sids.get(key) === undefined) {
+      return
+    }
+    publicRooms.push(key)
+  })
+  return publicRooms
+}
+
 io.on('connection', socket => {
   socket['nickname'] = 'anonymous'
   socket.onAny(evt => console.log(`socket evt : ${evt}`))
@@ -25,14 +41,13 @@ io.on('connection', socket => {
     socket.join(roomName)
     done(roomName)
     socket.to(roomName).emit('welcome', socket.nickname)
-    socket.on('disconnecting',
-      () => socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname)))
-    socket.on('new_message', (msg, sayRoomName, done) => {
-      socket.to(sayRoomName).emit('new_message',  `${socket.nickname}: ${msg}`)
-      done()
-    })
-    socket.on('nickname', nickname => socket.nickname = nickname)
   })
+  socket.on('disconnecting', () => socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname)))
+  socket.on('new_message', (msg, sayRoomName, done) => {
+    socket.to(sayRoomName).emit('new_message', `${socket.nickname}: ${msg}`)
+    done()
+  })
+  socket.on('nickname', nickname => socket.nickname = nickname)
 })
 
 // const wss = new WebSocket.Server({ server })
