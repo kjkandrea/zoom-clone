@@ -14,11 +14,12 @@ html(lang="en")
             main
                 div#welcome.box
                     h2 Join Room
+                    ul#room-list
                     form#welcome-form
                         label(for="room-name") Room name
-                        input(id="room-name" name="room" type="text", placeholder="Room name.", required)
+                        input#room-name(name="room" type="text", placeholder="Room name.", required)
                         label(for="nickname") Nickname
-                        input(id="nickname" name="nickname" type="text", placeholder="Nickname.", required)
+                        input#nickname(name="nickname" type="text", placeholder="Nickname.", required)
                         button Enter Room
                 div#room.box
                     h2 Room

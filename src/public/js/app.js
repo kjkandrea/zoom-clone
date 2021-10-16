@@ -1,11 +1,11 @@
 const socket = io()
 
 const welcomeEl = document.getElementById('welcome')
+const roomListEl = welcomeEl.querySelector('#room-list')
 const welcomeFormEl = welcomeEl.querySelector('form')
 const roomEl = document.getElementById('room')
 const chatEl = roomEl.querySelector('.chat')
 const chatFormEl = roomEl.querySelector('#chat-form')
-const chatNicknameEl = roomEl.querySelector('#nickname-form')
 
 document.addEventListener('DOMContentLoaded', () => {
   roomEl.style.display = 'none';
@@ -57,6 +57,12 @@ const handleWelcomeSubmit = evt => {
   nickname.value = ''
 }
 
+const renderRoomList = roomNames => roomNames.forEach(rn => {
+  const el = document.createElement('li')
+  el.innerText = rn;
+  roomListEl.append(el)
+})
+
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
 
 socket.on("welcome", nickname => {
@@ -69,4 +75,4 @@ socket.on("bye", nickname => {
 
 socket.on("new_message", addMessage)
 
-socket.on("room_change", console.log)
+socket.on("room_change", renderRoomList)
