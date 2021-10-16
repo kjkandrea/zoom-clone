@@ -20,16 +20,8 @@ const handleMessageSubmit = (evt, roomName) => {
   input.value = ''
 }
 
-const handleNicknameSubmit = (evt, roomName) => {
-  evt.preventDefault();
-  const input = evt.target.querySelector('input')
-  const { value } = input
-  socket.emit('nickname', value, roomName)
-}
-
 const attachChat = (roomEl, roomName) => {
   chatFormEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
-  chatNicknameEl.addEventListener('submit', evt => handleNicknameSubmit(evt, roomName))
 }
 
 const showRoom = roomName => {
@@ -49,13 +41,20 @@ const addMessage = message => {
 
 const handleWelcomeSubmit = evt => {
   evt.preventDefault();
-  const inputEl = evt.target.querySelector('input')
+
+  const { room, nickname } = evt.target;
+
   socket.emit(
     'enter_room',
-    inputEl.value,
+    room.value,
     showRoom
   )
-  inputEl.value = ''
+  socket.emit(
+    'nickname',
+    nickname.value
+  )
+  room.value = ''
+  nickname.value = ''
 }
 
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)

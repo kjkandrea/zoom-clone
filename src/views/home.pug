@@ -15,14 +15,14 @@ html(lang="en")
                 div#welcome.box
                     h2 Join Room
                     form#welcome-form
-                        input(type="text", placeholder="Room name.", required)
+                        label(for="room-name") Room name
+                        input(id="room-name" name="room" type="text", placeholder="Room name.", required)
+                        label(for="nickname") Nickname
+                        input(id="nickname" name="nickname" type="text", placeholder="Nickname.", required)
                         button Enter Room
                 div#room.box
                     h2 Room
                     ul.chat
-                    form#nickname-form
-                        input(type="text", placeholder="Write a nickname.", required)
-                        button Submit
                     form#chat-form
                         input(type="text", placeholder="Write a message.", required)
                         button Chat
