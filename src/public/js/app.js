@@ -6,6 +6,7 @@ const roomEl = document.getElementById('room')
 
 document.addEventListener('DOMContentLoaded', () => {
   roomEl.hidden = true
+  welcomeFormEl.querySelector('input').focus()
 })
 
 const handleMessageSubmit = (evt, roomName) => {
