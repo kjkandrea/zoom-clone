@@ -60,12 +60,12 @@ const handleWelcomeSubmit = evt => {
 
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
 
-socket.on("welcome", () => {
-  addMessage('someone joined!')
+socket.on("welcome", nickname => {
+  addMessage(nickname + ' joined!')
 })
 
-socket.on("bye", () => {
-  addMessage('someone left!')
+socket.on("bye", nickname => {
+  addMessage(nickname + ' left!')
 })
 
 socket.on("new_message", addMessage)

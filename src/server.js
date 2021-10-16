@@ -24,9 +24,9 @@ io.on('connection', socket => {
   socket.on('enter_room', (roomName, done) => {
     socket.join(roomName)
     done(roomName)
-    socket.to(roomName).emit('welcome')
+    socket.to(roomName).emit('welcome', socket.nickname)
     socket.on('disconnecting',
-      () => socket.rooms.forEach(room => socket.to(room).emit('bye')))
+      () => socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname)))
     socket.on('new_message', (msg, sayRoomName, done) => {
       socket.to(sayRoomName).emit('new_message',  `${socket.nickname}: ${msg}`)
       done()
