@@ -23,13 +23,11 @@ const getPublicRooms = io => {
     return
   }
   const { sids, rooms } = io.sockets.adapter
+  console.log(io.sockets.adapter)
 
   const publicRooms = []
   rooms.forEach((_, key) => {
-    if (sids.get(key) === undefined) {
-      return
-    }
-    publicRooms.push(key)
+    if (sids.get(key) === undefined) publicRooms.push(key)
   })
   return publicRooms
 }
@@ -41,6 +39,7 @@ io.on('connection', socket => {
     socket.join(roomName)
     done(roomName)
     socket.to(roomName).emit('welcome', socket.nickname)
+    io.sockets.emit("room_change", getPublicRooms(io))
   })
   socket.on('disconnecting', () => socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname)))
   socket.on('new_message', (msg, sayRoomName, done) => {

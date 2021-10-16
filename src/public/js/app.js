@@ -68,3 +68,5 @@ socket.on("bye", nickname => {
 })
 
 socket.on("new_message", addMessage)
+
+socket.on("room_change", console.log)
