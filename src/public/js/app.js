@@ -3,9 +3,10 @@ const socket = io()
 const welcomeEl = document.getElementById('welcome')
 const welcomeFormEl = welcomeEl.querySelector('form')
 const roomEl = document.getElementById('room')
+const chatEl = roomEl.querySelector('.chat')
 
 document.addEventListener('DOMContentLoaded', () => {
-  roomEl.hidden = true
+  roomEl.style.display = 'none';
   welcomeFormEl.querySelector('input').focus()
 })
 
@@ -24,16 +25,17 @@ const attachChat = (roomEl, roomName) => {
 
 const showRoom = roomName => {
   welcomeEl.hidden = true
-  roomEl.hidden = false
+  roomEl.style.display = 'flex';
   roomEl.querySelector('h2').innerText = roomName;
   attachChat(roomEl, roomName)
+  roomEl.querySelector('input').focus()
 }
 
 const addMessage = message => {
-  const target = roomEl.querySelector('ul')
   const el = document.createElement('li')
   el.innerText = message
-  target.append(el)
+  chatEl.append(el)
+  chatEl.scroll(0, chatEl.scrollHeight)
 }
 
 const handleWelcomeSubmit = evt => {
