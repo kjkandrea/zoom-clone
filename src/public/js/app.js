@@ -4,6 +4,8 @@ const welcomeEl = document.getElementById('welcome')
 const welcomeFormEl = welcomeEl.querySelector('form')
 const roomEl = document.getElementById('room')
 const chatEl = roomEl.querySelector('.chat')
+const chatFormEl = roomEl.querySelector('#chat-form')
+const chatNicknameEl = roomEl.querySelector('#nickname-form')
 
 document.addEventListener('DOMContentLoaded', () => {
   roomEl.style.display = 'none';
@@ -18,9 +20,16 @@ const handleMessageSubmit = (evt, roomName) => {
   input.value = ''
 }
 
+const handleNicknameSubmit = (evt, roomName) => {
+  evt.preventDefault();
+  const input = evt.target.querySelector('input')
+  const { value } = input
+  socket.emit('nickname', value, roomName)
+}
+
 const attachChat = (roomEl, roomName) => {
-  const formEl = roomEl.querySelector('form')
-  formEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
+  chatFormEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
+  chatNicknameEl.addEventListener('submit', evt => handleNicknameSubmit(evt, roomName))
 }
 
 const showRoom = roomName => {

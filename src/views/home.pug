@@ -20,6 +20,9 @@ html(lang="en")
                 div#room.box
                     h2 Room
                     ul.chat
+                    form#nickname-form
+                        input(type="text", placeholder="Write a nickname.", required)
+                        button Submit
                     form#chat-form
                         input(type="text", placeholder="Write a message.", required)
                         button Chat
