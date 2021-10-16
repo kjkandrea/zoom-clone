@@ -2,22 +2,33 @@ doctype html
 html(lang="en")
     head
         meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
         title Zoom
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="/assets/css/main.css")
         script(src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js")
     body
-        header
-            h1 Zoom
-            div#welcome
-                form#welcome-form
-                    input(type="text", placeholder="Room name.", required)
-                    button Enter Room
-            div#room
-                h2
-                ul
-                form#chat-form
-                    input(type="text", placeholder="Write a message.", required)
-                    button Chat
-        main
+        div#app
+            header
+                h1 Zoom
+            main
+                div#welcome.box
+                    h2 Join Room
+                    h3 Open Rooms
+                    ul#room-list
+                        li no room
+                    form#welcome-form
+                        label(for="room-name") Room name
+                        input#room-name(name="room" type="text", placeholder="Room name.", required)
+                        label(for="nickname") Nickname
+                        input#nickname(name="nickname" type="text", placeholder="Nickname.", required)
+                        button Enter Room
+                div#room.box
+                    h2 Room
+                    ul.chat
+                    form#chat-form
+                        input(type="text", placeholder="Write a message.", required)
+                        button Chat
+
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js", type="module")

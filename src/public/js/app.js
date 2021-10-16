@@ -1,11 +1,15 @@
 const socket = io()
 
 const welcomeEl = document.getElementById('welcome')
+const roomListEl = welcomeEl.querySelector('#room-list')
 const welcomeFormEl = welcomeEl.querySelector('form')
 const roomEl = document.getElementById('room')
+const chatEl = roomEl.querySelector('.chat')
+const chatFormEl = roomEl.querySelector('#chat-form')
 
 document.addEventListener('DOMContentLoaded', () => {
-  roomEl.hidden = true
+  roomEl.style.display = 'none';
+  welcomeFormEl.querySelector('input').focus()
 })
 
 const handleMessageSubmit = (evt, roomName) => {
@@ -17,43 +21,61 @@ const handleMessageSubmit = (evt, roomName) => {
 }
 
 const attachChat = (roomEl, roomName) => {
-  const formEl = roomEl.querySelector('form')
-  formEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
+  chatFormEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
 }
 
 const showRoom = roomName => {
   welcomeEl.hidden = true
-  roomEl.hidden = false
+  roomEl.style.display = 'flex';
   roomEl.querySelector('h2').innerText = roomName;
   attachChat(roomEl, roomName)
+  roomEl.querySelector('input').focus()
 }
 
 const addMessage = message => {
-  const target = roomEl.querySelector('ul')
   const el = document.createElement('li')
   el.innerText = message
-  target.append(el)
+  chatEl.append(el)
+  chatEl.scroll(0, chatEl.scrollHeight)
 }
 
 const handleWelcomeSubmit = evt => {
   evt.preventDefault();
-  const inputEl = evt.target.querySelector('input')
+
+  const { room, nickname } = evt.target;
+
   socket.emit(
     'enter_room',
-    inputEl.value,
+    room.value,
     showRoom
   )
-  inputEl.value = ''
+  socket.emit(
+    'nickname',
+    nickname.value
+  )
+  room.value = ''
+  nickname.value = ''
+}
+
+const renderRoomList = roomNames => {
+  roomListEl.innerHTML = roomNames.length ? '' : '<li>no room</li>'
+  roomNames.forEach(rn => {
+    const el = document.createElement('li')
+    el.innerText = rn;
+    roomListEl.append(el)
+  })
 }
 
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
 
-socket.on("welcome", () => {
-  addMessage('someone joined!')
+socket.on("welcome", nickname => {
+  addMessage(nickname + ' joined!')
 })
 
-socket.on("bye", () => {
-  addMessage('someone left!')
+socket.on("bye", nickname => {
+  addMessage(nickname + ' left!')
 })
 
 socket.on("new_message", addMessage)
+
+socket.on("room_change", renderRoomList)
