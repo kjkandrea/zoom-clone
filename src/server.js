@@ -19,6 +19,7 @@ const server = http.createServer(app)
 const io = SocketIO(server)
 
 io.on('connection', socket => {
+  socket['nickname'] = 'anonymous'
   socket.onAny(evt => console.log(`socket evt : ${evt}`))
   socket.on('enter_room', (roomName, done) => {
     socket.join(roomName)
@@ -27,9 +28,10 @@ io.on('connection', socket => {
     socket.on('disconnecting',
       () => socket.rooms.forEach(room => socket.to(room).emit('bye')))
     socket.on('new_message', (msg, sayRoomName, done) => {
-      socket.to(sayRoomName).emit('new_message', msg)
+      socket.to(sayRoomName).emit('new_message',  `${socket.nickname}: ${msg}`)
       done()
     })
+    socket.on('nickname', nickname => socket.nickname = nickname)
   })
 })
 
