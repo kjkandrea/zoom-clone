@@ -57,11 +57,14 @@ const handleWelcomeSubmit = evt => {
   nickname.value = ''
 }
 
-const renderRoomList = roomNames => roomNames.forEach(rn => {
-  const el = document.createElement('li')
-  el.innerText = rn;
-  roomListEl.append(el)
-})
+const renderRoomList = roomNames => {
+  roomListEl.innerHTML = roomNames.length ? '' : '<li>no room</li>'
+  roomNames.forEach(rn => {
+    const el = document.createElement('li')
+    el.innerText = rn;
+    roomListEl.append(el)
+  })
+}
 
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
 
