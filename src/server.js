@@ -18,18 +18,23 @@ const handleListen = () => console.log('app listen : %s',
 const server = http.createServer(app)
 const io = SocketIO(server)
 
+const getAdapter = io => {
+  return io?.sockets?.adapter;
+}
+
 const getPublicRooms = io => {
-  if (io?.sockets?.adapter === undefined) {
-    return
-  }
-  const { sids, rooms } = io.sockets.adapter
+  const { sids, rooms } = getAdapter(io)
 
   const publicRooms = []
-  console.log(publicRooms)
   rooms.forEach((_, key) => {
     if (sids.get(key) === undefined) publicRooms.push(key)
   })
   return publicRooms
+}
+
+const getRoomCount = (io, roomName) => {
+  const { rooms } = getAdapter(io)
+  return rooms.get(roomName)?.size ?? 0
 }
 
 io.on('connection', socket => {
@@ -38,11 +43,11 @@ io.on('connection', socket => {
   socket.on('enter_room', (roomName, done) => {
     socket.join(roomName)
     done(roomName)
-    socket.to(roomName).emit('welcome', socket.nickname)
+    socket.to(roomName).emit('welcome', socket.nickname, roomName, getRoomCount(io, roomName))
     io.sockets.emit("room_change", getPublicRooms(io))
   })
   socket.on('disconnecting', () => {
-    socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname))
+    socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname, room, getRoomCount(io, room) - 1))
   })
   socket.on('disconnect', () => {
     io.sockets.emit("room_change", getPublicRooms(io))
