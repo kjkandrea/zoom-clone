@@ -18,11 +18,12 @@ const handleListen = () => console.log('app listen : %s',
 const server = http.createServer(app)
 const io = SocketIO(server)
 
+const getAdapter = io => {
+  return io?.sockets?.adapter;
+}
+
 const getPublicRooms = io => {
-  if (io?.sockets?.adapter === undefined) {
-    return
-  }
-  const { sids, rooms } = io.sockets.adapter
+  const { sids, rooms } = getAdapter(io)
 
   const publicRooms = []
   console.log(publicRooms)
