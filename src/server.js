@@ -43,11 +43,11 @@ io.on('connection', socket => {
   socket.on('enter_room', (roomName, done) => {
     socket.join(roomName)
     done(roomName)
-    socket.to(roomName).emit('welcome', socket.nickname, getRoomCount(io, roomName))
+    socket.to(roomName).emit('welcome', socket.nickname, roomName, getRoomCount(io, roomName))
     io.sockets.emit("room_change", getPublicRooms(io))
   })
   socket.on('disconnecting', () => {
-    socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname, getRoomCount(io, room) - 1))
+    socket.rooms.forEach(room => socket.to(room).emit('bye', socket.nickname, room, getRoomCount(io, room) - 1))
   })
   socket.on('disconnect', () => {
     io.sockets.emit("room_change", getPublicRooms(io))

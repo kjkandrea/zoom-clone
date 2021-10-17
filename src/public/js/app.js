@@ -24,10 +24,14 @@ const attachChat = (roomEl, roomName) => {
   chatFormEl.addEventListener('submit', evt => handleMessageSubmit(evt, roomName))
 }
 
+const setRoomTitle = (roomName, count) => {
+  const title = roomEl.querySelector('h2')
+  title.innerText = `Room : ${roomName} (${count})`
+}
+
 const showRoom = roomName => {
   welcomeEl.hidden = true
   roomEl.style.display = 'flex';
-  roomEl.querySelector('h2').innerText = roomName;
   attachChat(roomEl, roomName)
   roomEl.querySelector('input').focus()
 }
@@ -68,11 +72,13 @@ const renderRoomList = roomNames => {
 
 welcomeFormEl.addEventListener('submit', handleWelcomeSubmit)
 
-socket.on("welcome", nickname => {
+socket.on("welcome", (nickname, roomName, count) => {
+  setRoomTitle(roomName, count)
   addMessage(nickname + ' joined!')
 })
 
-socket.on("bye", nickname => {
+socket.on("bye", (nickname, roomName, count) => {
+  setRoomTitle(roomName, count)
   addMessage(nickname + ' left!')
 })
 
